@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>校园失物招领小程序 · 流程图</title>
+<style>
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+    background: #E9EBF0;
+    margin: 0;
+    color: #1A1D26;
+    -webkit-font-smoothing: antialiased;
+  }
+  .header { text-align: center; padding: 48px 20px 8px; }
+  .header h1 { font-size: 28px; font-weight: 700; letter-spacing: 1px; margin: 0; }
+  .header p { color: #6B7280; margin-top: 8px; font-size: 14px; }
+
+  .charts { display: flex; flex-wrap: wrap; gap: 48px 56px; justify-content: center; padding: 48px 32px 80px; }
+  .chart-card {
+    background: #fff; border-radius: 20px; padding: 28px 24px 20px;
+    box-shadow: 0 8px 30px rgba(30,35,60,0.10); text-align: center;
+  }
+  .chart-card h2 { font-size: 17px; font-weight: 700; margin: 0 0 4px; }
+  .chart-card .sub { font-size: 12.5px; color: #9CA3AF; margin-bottom: 20px; }
+  .chart-card h2 b { color: #4E6EF2; }
+</style>
+</head>
+<body>
+  <div class="header">
+    <h1>校园失物招领小程序 · 使用流程图</h1>
+    <p>3 个核心流程 · 圆角始末节点 + 流程框 + 判断菱形 · 与原型配色一致</p>
+  </div>
+
+  <div class="charts">
+
+    <!-- ============ 流程图 1：查看信息 ============ -->
+    <div class="chart-card">
+      <h2>流程一 · <b>查看信息</b></h2>
+      <div class="sub">浏览信息 → 查看详情 → 联系发布者</div>
+      <svg width="280" height="556" viewBox="0 0 280 556" xmlns="http://www.w3.org/2000/svg">
+        <!-- arrows -->
+        <line x1="140" y1="76" x2="140" y2="104" stroke="#A6ADBF" stroke-width="2"/>
+        <polygon points="140,112 134,104 146,104" fill="#A6ADBF"/>
+        <line x1="140" y1="168" x2="140" y2="196" stroke="#A6ADBF" stroke-width="2"/>
+        <polygon points="140,204 134,196 146,196" fill="#A6ADBF"/>
+        <line x1="140" y1="260" x2="140" y2="288" stroke="#A6ADBF" stroke-width="2"/>
+        <polygon points="140,296 134,288 146,288" fill="#A6ADBF"/>
+        <line x1="140" y1="352" x2="140" y2="380" stroke="#A6ADBF" stroke-width="2"/>
+        <polygon points="140,388 134,380 146,380" fill="#A6ADBF"/>
+        <line x1="140" y1="444" x2="140" y2="472" stroke="#A6ADBF" stroke-width="2"/>
+        <polygon points="140,480 134,472 146,472" fill="#A6ADBF"/>
+
+        <!-- 开始 -->
+        <rect x="20" y="20" width="240" height="56" rx="28" fill="#4E6EF2"/>
+        <text x="140" y="48" dy="0.35em" text-anchor="middle" fill="#fff" font-size="15" font-weight="600">开始</text>
+        <!-- 进入首页 -->
+        <rect x="20" y="112" width="240" height="56" rx="14" fill="#fff" stroke="#4E6EF2" stroke-width="1.5"/>
+        <text x="140" y="140" dy="0.35em" text-anchor="middle" fill="#1A1D26" font-size="15" font-weight="600">进入首页</text>
+        <!-- 浏览信息列表 -->
+        <rect x="20" y="204" width="240" height="56" rx="14" fill="#fff" stroke="#4E6EF2" stroke-width="1.5"/>
+        <text x="140" y="232" dy="0.35em" text-anchor="middle" fill="#1A1D26" font-size="15" font-weight="600">浏览信息列表</text>
+        <!-- 查看物品详情 -->
+        <rect x="20" y="296" width="240" height="56" rx="14" fill="#fff" stroke="#4E6EF2" stroke-width="1.5"/>
+        <text x="140" y="324" dy="0.35em" text-anchor="middle" fill="#1A1D26" font-size="15" font-weight="600">查看物品详情</text>
+        <!-- 联系发布者 -->
+        <rect x="20" y="388" width="240" height="56" rx="14" fill="#fff" stroke="#4E6EF2" stroke-width="1.5"/>
+        <text x="140" y="416" dy="0.35em" text-anchor="middle" fill="#1A1D26" font-size="15" font-weight="600">联系发布者</text>
+        <!-- 结束 -->
+        <rect x="20" y="480" width="240" height="56" rx="28" fill="#10B981"/>
+        <text x="140" y="508" dy="0.35em" text-anchor="middle" fill="#fff" font-size="15" font-weight="600">结束</text>
+      </svg>
+    </div>
+
+    <!-- ============ 流程图 2：发布信息 ============ -->
+    <div class="chart-card">
+      <h2>流程二 · <b>发布信息</b></h2>
+      <div class="sub">填写物品信息 → 点击发布 → 发布成功</div>
+      <svg width="280" height="648" viewBox="0 0 280 648" xmlns="http://www.w3.org/2000/svg">
+        <!-- arrows -->
+        <line x1="140" y1="76" x2="140" y2="104" stroke="#A6ADBF" stroke-width="2"/>
+        <polygon points="140,112 134,104 146,104" fill="#A6ADBF"/>
+        <line x1="140" y1="168" x2="140" y2="196" stroke="#A6ADBF" stroke-width="2"/>
+        <polygon points="140,204 134,196 146,196" fill="#A6ADBF"/>
+        <line x1="140" y1="260" x2="140" y2="288" stroke="#A6ADBF" stroke-width="2"/>
+        <polygon points="140,296 134,288 146,288" fill="#A6ADBF"/>
+        <line x1="140" y1="352" x2="140" y2="380" stroke="#A6ADBF" stroke-width="2"/>
+        <polygon points="140,388 134,380 146,380" fill="#A6ADBF"/>
+        <line x1="140" y1="444" x2="140" y2="472" stroke="#A6ADBF" stroke-width="2"/>
+        <polygon points="140,480 134,472 146,472" fill="#A6ADBF"/>
+        <line x1="140" y1="536" x2="140" y2="564" stroke="#A6ADBF" stroke-width="2"/>
+        <polygon points="140,572 134,564 146,564" fill="#A6ADBF"/>
+
+        <!-- 开始 -->
+        <rect x="20" y="20" width="240" height="56" rx="28" fill="#4E6EF2"/>
+        <text x="140" y="48" dy="0.35em" text-anchor="middle" fill="#fff" font-size="15" font-weight="600">开始</text>
+        <!-- 进入发布页面 -->
+        <rect x="20" y="112" width="240" height="56" rx="14" fill="#fff" stroke="#4E6EF2" stroke-width="1.5"/>
+        <text x="140" y="140" dy="0.35em" text-anchor="middle" fill="#1A1D26" font-size="15" font-weight="600">进入发布页面</text>
+        <!-- 选择类型 -->
+        <rect x="20" y="204" width="240" height="56" rx="14" fill="#fff" stroke="#4E6EF2" stroke-width="1.5"/>
+        <text x="140" y="232" dy="0.35em" text-anchor="middle" fill="#1A1D26" font-size="15" font-weight="600">选择类型（寻物 / 招领）</text>
+        <!-- 填写物品信息 -->
+        <rect x="20" y="296" width="240" height="56" rx="14" fill="#fff" stroke="#4E6EF2" stroke-width="1.5"/>
+        <text x="140" y="324" dy="0.35em" text-anchor="middle" fill="#1A1D26" font-size="15" font-weight="600">填写物品信息</text>
+        <!-- 点击发布 -->
+        <rect x="20" y="388" width="240" height="56" rx="14" fill="#fff" stroke="#4E6EF2" stroke-width="1.5"/>
+        <text x="140" y="416" dy="0.35em" text-anchor="middle" fill="#1A1D26" font-size="15" font-weight="600">点击发布</text>
+        <!-- 发布成功 -->
+        <rect x="20" y="480" width="240" height="56" rx="14" fill="#EEF1FE" stroke="#4E6EF2" stroke-width="1.5"/>
+        <text x="140" y="508" dy="0.35em" text-anchor="middle" fill="#3A55D9" font-size="15" font-weight="600">发布成功</text>
+        <!-- 结束 -->
+        <rect x="20" y="572" width="240" height="56" rx="28" fill="#10B981"/>
+        <text x="140" y="600" dy="0.35em" text-anchor="middle" fill="#fff" font-size="15" font-weight="600">结束</text>
+      </svg>
+    </div>
+
+    <!-- ============ 流程图 3：搜索信息 ============ -->
+    <div class="chart-card">
+      <h2>流程三 · <b>搜索信息</b></h2>
+      <div class="sub">输入关键词 → 查看结果 → 查看详情（含判断分支）</div>
+      <svg width="340" height="688" viewBox="0 0 340 688" xmlns="http://www.w3.org/2000/svg">
+        <!-- 主流程箭头 -->
+        <line x1="140" y1="76" x2="140" y2="104" stroke="#A6ADBF" stroke-width="2"/>
+        <polygon points="140,112 134,104 146,104" fill="#A6ADBF"/>
+        <line x1="140" y1="168" x2="140" y2="196" stroke="#A6ADBF" stroke-width="2"/>
+        <polygon points="140,204 134,196 146,196" fill="#A6ADBF"/>
+        <line x1="140" y1="260" x2="140" y2="288" stroke="#A6ADBF" stroke-width="2"/>
+        <polygon points="140,296 134,288 146,288" fill="#A6ADBF"/>
+        <!-- 是 分支：菱形下 → 查看详情 -->
+        <line x1="140" y1="392" x2="140" y2="420" stroke="#10B981" stroke-width="2"/>
+        <polygon points="140,428 134,420 146,420" fill="#10B981"/>
+        <text x="154" y="412" dy="0.35em" fill="#10B981" font-size="13" font-weight="700">是</text>
+        <line x1="140" y1="484" x2="140" y2="512" stroke="#A6ADBF" stroke-width="2"/>
+        <polygon points="140,520 134,512 146,512" fill="#A6ADBF"/>
+        <line x1="140" y1="576" x2="140" y2="604" stroke="#A6ADBF" stroke-width="2"/>
+        <polygon points="140,612 134,604 146,604" fill="#A6ADBF"/>
+
+        <!-- 否 分支：菱形右 → 回输入关键词 -->
+        <path d="M240,344 L300,344 L300,232 L268,232" fill="none" stroke="#F59E0B" stroke-width="2"/>
+        <polygon points="260,232 268,227 268,237" fill="#F59E0B"/>
+        <text x="306" y="300" dy="0.35em" fill="#F59E0B" font-size="13" font-weight="700">否</text>
+
+        <!-- 开始 -->
+        <rect x="20" y="20" width="240" height="56" rx="28" fill="#4E6EF2"/>
+        <text x="140" y="48" dy="0.35em" text-anchor="middle" fill="#fff" font-size="15" font-weight="600">开始</text>
+        <!-- 进入搜索页 -->
+        <rect x="20" y="112" width="240" height="56" rx="14" fill="#fff" stroke="#4E6EF2" stroke-width="1.5"/>
+        <text x="140" y="140" dy="0.35em" text-anchor="middle" fill="#1A1D26" font-size="15" font-weight="600">进入搜索页</text>
+        <!-- 输入关键词 -->
+        <rect x="20" y="204" width="240" height="56" rx="14" fill="#fff" stroke="#4E6EF2" stroke-width="1.5"/>
+        <text x="140" y="232" dy="0.35em" text-anchor="middle" fill="#1A1D26" font-size="15" font-weight="600">输入物品关键词</text>
+        <!-- 判断菱形 -->
+        <polygon points="140,296 240,344 140,392 40,344" fill="#fff" stroke="#F59E0B" stroke-width="1.5"/>
+        <text x="140" y="344" dy="0.35em" text-anchor="middle" fill="#1A1D26" font-size="14" font-weight="600">有无匹配结果？</text>
+        <!-- 查看物品详情 -->
+        <rect x="20" y="428" width="240" height="56" rx="14" fill="#fff" stroke="#4E6EF2" stroke-width="1.5"/>
+        <text x="140" y="456" dy="0.35em" text-anchor="middle" fill="#1A1D26" font-size="15" font-weight="600">查看物品详情</text>
+        <!-- 联系发布者 -->
+        <rect x="20" y="520" width="240" height="56" rx="14" fill="#fff" stroke="#4E6EF2" stroke-width="1.5"/>
+        <text x="140" y="548" dy="0.35em" text-anchor="middle" fill="#1A1D26" font-size="15" font-weight="600">联系发布者</text>
+        <!-- 结束 -->
+        <rect x="20" y="612" width="240" height="56" rx="28" fill="#10B981"/>
+        <text x="140" y="640" dy="0.35em" text-anchor="middle" fill="#fff" font-size="15" font-weight="600">结束</text>
+      </svg>
+    </div>
+
+  </div>
+</body>
+</html>

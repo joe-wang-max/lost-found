@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>校园失物招领小程序 · 原型设计</title>
+<style>
+  :root {
+    --bg: #F4F5F7;
+    --card: #FFFFFF;
+    --primary: #4E6EF2;
+    --primary-deep: #3A55D9;
+    --primary-soft: #EEF1FE;
+    --text: #1A1D26;
+    --text-2: #6B7280;
+    --text-3: #9CA3AF;
+    --line: #EEEFF3;
+    --green: #10B981;
+    --green-soft: #E6F7F1;
+    --orange: #F59E0B;
+    --orange-soft: #FEF3E2;
+    --radius: 16px;
+    --shadow: 0 2px 12px rgba(20,24,40,0.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+    background: #E9EBF0;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page-header {
+    text-align: center;
+    padding: 48px 20px 8px;
+  }
+  .page-header h1 { font-size: 28px; font-weight: 700; letter-spacing: 1px; }
+  .page-header p { color: var(--text-2); margin-top: 8px; font-size: 14px; }
+
+  .showcase {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px 56px;
+    justify-content: center;
+    padding: 48px 32px 80px;
+  }
+
+  .screen-wrap { text-align: center; }
+  .screen-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-2);
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+  }
+  .screen-label b { color: var(--primary); font-weight: 700; }
+
+  /* 手机外壳 */
+  .phone {
+    width: 375px;
+    height: 812px;
+    background: var(--bg);
+    border-radius: 44px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(30,35,60,0.22), 0 0 0 10px #14161C, 0 0 0 12px #2A2D36;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* 状态栏 */
+  .statusbar {
+    height: 44px;
+    flex: 0 0 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 26px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .statusbar .sb-right { display: flex; gap: 6px; align-items: center; }
+  .sb-signal { display: flex; gap: 2px; align-items: flex-end; }
+  .sb-signal i { width: 3px; background: var(--text); border-radius: 1px; display: block; }
+  .sb-signal i:nth-child(1){ height: 4px; }
+  .sb-signal i:nth-child(2){ height: 6px; }
+  .sb-signal i:nth-child(3){ height: 8px; }
+  .sb-signal i:nth-child(4){ height: 10px; }
+  .sb-wifi { width: 14px; height: 10px; position: relative; }
+  .sb-wifi::before { content:""; position:absolute; inset:0; border-radius:50%; border: 2px solid var(--text); border-bottom-color: transparent; border-left-color: transparent; transform: rotate(45deg); }
+  .sb-batt { width: 22px; height: 11px; border: 1.5px solid var(--text); border-radius: 3px; position: relative; }
+  .sb-batt::after { content:""; position:absolute; right:-4px; top:2.5px; width:2px; height:4px; background: var(--text); border-radius: 0 2px 2px 0; }
+  .sb-batt::before { content:""; position:absolute; left:1.5px; top:1.5px; bottom:1.5px; width: 70%; background: var(--text); border-radius: 1px; }
+
+  .content { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+
+  /* 首页顶部 */
+  .nav-top {
+    padding: 8px 20px 14px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .brand .logo {
+    width: 30px; height: 30px;
+    background: linear-gradient(135deg, #4E6EF2, #7A8CFF);
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 16px; font-weight: 700;
+  }
+  .brand h2 { font-size: 19px; font-weight: 700; letter-spacing: .5px; }
+  .brand span { font-size: 12px; color: var(--text-3); margin-left: auto; }
+
+  .searchbar {
+    display: flex; align-items: center; gap: 8px;
+    background: #ECEEF3; border-radius: 22px;
+    padding: 11px 16px; color: var(--text-3); font-size: 14px;
+  }
+  .searchbar .ic {
+    width: 16px; height: 16px; border: 2px solid var(--text-3);
+    border-radius: 50%; position: relative;
+  }
+  .searchbar .ic::after {
+    content:""; position:absolute; width: 6px; height: 2px;
+    background: var(--text-3); right: -5px; bottom: -1px; transform: rotate(45deg);
+    border-radius: 2px;
+  }
+
+  /* 分段 Tab */
+  .seg {
+    display: flex; background: #ECEEF3; border-radius: 12px;
+    padding: 4px; margin: 0 20px 12px;
+  }
+  .seg div {
+    flex: 1; text-align: center; padding: 8px 0;
+    font-size: 14px; color: var(--text-2); border-radius: 9px; font-weight: 500;
+  }
+  .seg div.on { background: #fff; color: var(--text); font-weight: 600; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+
+  .filter-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 22px 10px; font-size: 13px; color: var(--text-3);
+  }
+  .filter-row .f-right { display: flex; align-items: center; gap: 4px; }
+  .filter-row .f-right b { color: var(--text-2); font-weight: 500; }
+
+  /* 列表卡片 */
+  .list { flex: 1; padding: 0 16px 16px; overflow: hidden; }
+  .item-card {
+    background: var(--card); border-radius: var(--radius);
+    padding: 14px; display: flex; align-items: center; gap: 12px;
+    margin-bottom: 12px; box-shadow: var(--shadow);
+  }
+  .thumb {
+    width: 52px; height: 52px; border-radius: 14px; flex: 0 0 52px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 20px; font-weight: 700;
+  }
+  .g1 { background: linear-gradient(135deg,#4E6EF2,#7A8CFF); }
+  .g2 { background: linear-gradient(135deg,#8B5CF6,#B08CFF); }
+  .g3 { background: linear-gradient(135deg,#F59E0B,#FBBF24); }
+  .g4 { background: linear-gradient(135deg,#10B981,#34D399); }
+  .g5 { background: linear-gradient(135deg,#06B6D4,#22D3EE); }
+  .g6 { background: linear-gradient(135deg,#6366F1,#818CF8); }
+
+  .item-info { flex: 1; min-width: 0; }
+  .item-title { display: flex; align-items: center; gap: 8px; }
+  .item-title h4 { font-size: 15.5px; font-weight: 600; }
+  .tag {
+    font-size: 11px; padding: 2.5px 8px; border-radius: 20px; font-weight: 600;
+  }
+  .tag.found { background: var(--green-soft); color: var(--green); }
+  .tag.lost { background: var(--orange-soft); color: var(--orange); }
+  .item-meta { font-size: 12.5px; color: var(--text-3); margin-top: 6px; }
+  .chev { color: #C6C9D2; font-size: 18px; }
+
+  /* 底部导航 */
+  .tabbar {
+    flex: 0 0 66px; background: #fff; border-top: 1px solid var(--line);
+    display: flex; align-items: center; padding: 0 10px;
+    box-shadow: 0 -2px 12px rgba(20,24,40,0.04);
+  }
+  .tab { flex: 1; text-align: center; color: var(--text-3); font-size: 11px; position: relative; }
+  .tab .t-ic { width: 24px; height: 24px; margin: 0 auto 3px; border-radius: 6px; background: #D8DAE1; }
+  .tab.on { color: var(--primary); }
+  .tab.on .t-ic { background: var(--primary); }
+  .tab.add .t-ic {
+    width: 44px; height: 44px; margin-top: -16px; border-radius: 15px;
+    background: linear-gradient(135deg,#4E6EF2,#6E86FF);
+    box-shadow: 0 6px 14px rgba(78,110,242,.35);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .tab.add .t-ic::before { content:"+"; color:#fff; font-size: 26px; font-weight: 400; line-height: 1; }
+  .tab.add { color: var(--text-2); }
+  .tab.add .t-ic { margin-bottom: 2px; }
+
+  /* 页面标题栏（带返回） */
+  .page-bar {
+    display: flex; align-items: center; padding: 4px 16px 12px; gap: 12px;
+  }
+  .back {
+    width: 34px; height: 34px; border-radius: 11px; background: #ECEEF3;
+    display: flex; align-items: center; justify-content: center; color: var(--text);
+  }
+  .back::before { content:"‹"; font-size: 24px; line-height: 1; margin-top: -2px; }
+  .page-bar h3 { font-size: 17px; font-weight: 700; flex: 1; text-align: center; margin-right: 34px; }
+
+  /* 发布页 */
+  .type-toggle {
+    display: flex; background: #ECEEF3; border-radius: 14px; padding: 4px; margin: 0 20px 16px;
+  }
+  .type-toggle div {
+    flex: 1; text-align: center; padding: 11px 0; border-radius: 11px;
+    font-size: 15px; color: var(--text-2); font-weight: 600;
+  }
+  .type-toggle div.on { background: #fff; color: var(--primary); box-shadow: 0 2px 6px rgba(0,0,0,.06); }
+
+  .form { padding: 0 20px; }
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-size: 13px; color: var(--text-2); margin-bottom: 8px; font-weight: 500; }
+  .field input, .field textarea {
+    width: 100%; border: 1px solid var(--line); border-radius: 13px;
+    padding: 13px 14px; font-size: 14.5px; background: #fff; color: var(--text);
+    font-family: inherit; resize: none;
+  }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--primary); }
+  .field input::placeholder, .field textarea::placeholder { color: var(--text-3); }
+  .upload {
+    width: 96px; height: 96px; border: 1.5px dashed #D0D3DB; border-radius: 14px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: var(--text-3); gap: 6px;
+  }
+  .upload .plus { font-size: 30px; font-weight: 300; color: #C0C4CE; line-height: 1; }
+  .upload span { font-size: 12px; }
+
+  .primary-btn {
+    display: block; width: calc(100% - 40px); margin: 8px auto 20px;
+    background: linear-gradient(135deg,#4E6EF2,#6E86FF); color: #fff;
+    border: none; border-radius: 16px; padding: 15px 0; font-size: 16px; font-weight: 600;
+    text-align: center; box-shadow: 0 8px 20px rgba(78,110,242,.32); letter-spacing: 2px;
+  }
+  .ghost-btn {
+    display: block; width: calc(100% - 40px); margin: 0 auto;
+    background: #fff; color: var(--primary); border: 1.5px solid var(--primary);
+    border-radius: 16px; padding: 14px 0; font-size: 15px; font-weight: 600; text-align: center;
+  }
+
+  /* 发布成功 */
+  .success { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 32px; }
+  .success .check {
+    width: 84px; height: 84px; border-radius: 50%;
+    background: linear-gradient(135deg,#10B981,#34D399);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 12px 30px rgba(16,185,129,.35); margin-bottom: 24px;
+  }
+  .success .check::before {
+    content:""; width: 34px; height: 18px; border: 4px solid #fff;
+    border-top: none; border-right: none; transform: rotate(-45deg) translate(1px,-2px);
+  }
+  .success h3 { font-size: 21px; font-weight: 700; }
+  .success p { color: var(--text-2); font-size: 14px; margin: 10px 0 34px; }
+
+  /* 搜索页 */
+  .search-input {
+    display: flex; align-items: center; gap: 10px; padding: 4px 20px 14px;
+  }
+  .search-input .in {
+    flex: 1; display: flex; align-items: center; gap: 8px;
+    background: #ECEEF3; border-radius: 22px; padding: 11px 16px; font-size: 14px;
+  }
+  .search-input .in .ic { width: 14px; height: 14px; border: 2px solid var(--text-3); border-radius: 50%; position: relative; }
+  .search-input .in .ic::after { content:""; position:absolute; width:5px; height:2px; background:var(--text-3); right:-4px; bottom:-1px; transform:rotate(45deg); }
+  .search-input .in input { border: none; background: transparent; flex:1; font-size:14px; outline:none; }
+  .search-input .cancel { color: var(--primary); font-size: 15px; }
+
+  .section { padding: 8px 22px 4px; }
+  .section h4 { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 10px; }
+  .tags .pill { background: #fff; border-radius: 20px; padding: 8px 16px; font-size: 13px; color: var(--text-2); box-shadow: var(--shadow); }
+  .tags .pill.hot { color: var(--orange); background: var(--orange-soft); box-shadow: none; }
+
+  .result-count { font-size: 12.5px; color: var(--text-3); padding: 2px 22px 10px; }
+
+  /* 详情页 */
+  .hero {
+    height: 240px; margin: 4px 16px 14px; border-radius: 20px;
+    background: linear-gradient(135deg,#4E6EF2,#8B9BFF);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .hero .hero-txt { color: rgba(255,255,255,.9); font-size: 15px; letter-spacing: 2px; }
+  .hero .tag { position: absolute; top: 14px; left: 14px; }
+
+  .detail-title { padding: 0 22px; display: flex; align-items: center; gap: 10px; }
+  .detail-title h3 { font-size: 20px; font-weight: 700; }
+  .info-card { margin: 16px 16px 0; background: #fff; border-radius: var(--radius); padding: 6px 0; box-shadow: var(--shadow); }
+  .info-row { display: flex; padding: 13px 18px; align-items: center; font-size: 14px; }
+  .info-row .k { color: var(--text-3); width: 70px; flex: 0 0 70px; }
+  .info-row .v { color: var(--text); flex: 1; }
+  .info-row + .info-row { border-top: 1px solid #F4F5F7; }
+  .publisher { margin: 14px 16px 0; background: #fff; border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 12px; }
+  .avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg,#F59E0B,#FBBF24); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; }
+  .publisher .p-name { font-weight: 600; font-size: 15px; }
+  .publisher .p-contact { color: var(--text-3); font-size: 12.5px; margin-top: 3px; }
+  .contact-btn {
+    display: block; width: calc(100% - 32px); margin: 18px auto 0;
+    background: linear-gradient(135deg,#4E6EF2,#6E86FF); color:#fff;
+    border-radius: 16px; padding: 15px 0; text-align: center; font-size: 16px; font-weight: 600;
+    box-shadow: 0 8px 20px rgba(78,110,242,.32); letter-spacing: 1px;
+  }
+
+  /* 我的发布 */
+  .my-card {
+    background:#fff; border-radius: var(--radius); padding: 14px;
+    display:flex; align-items:center; gap:12px; margin-bottom:12px; box-shadow: var(--shadow);
+  }
+  .my-card .status-pill { font-size: 11.5px; padding: 3px 9px; border-radius: 20px; font-weight: 600; }
+  .status-pill.doing { background: var(--primary-soft); color: var(--primary); }
+  .status-pill.done { background: #ECEEF3; color: var(--text-3); }
+  .my-actions { display: flex; gap: 8px; }
+  .mini-btn { font-size: 12px; padding: 6px 12px; border-radius: 18px; border: 1px solid var(--primary); color: var(--primary); background:#fff; }
+  .mini-btn.solid { background: var(--primary); color:#fff; border-color: var(--primary); }
+
+  .footnote { text-align:center; color: var(--text-3); font-size: 13px; padding: 0 0 40px; }
+</style>
+</head>
+<body>
+
+  <div class="page-header">
+    <h1>校园失物招领小程序 · 原型设计</h1>
+    <p>共 6 个核心页面 · 简约时尚大方 · 状态栏 + 底部导航，模拟微信小程序界面</p>
+  </div>
+
+  <div class="showcase">
+
+    <!-- ============ 1. 首页 ============ -->
+    <div class="screen-wrap">
+      <div class="screen-label"><b>01</b> · 首页（浏览信息）</div>
+      <div class="phone">
+        <div class="statusbar">
+          <span>9:41</span>
+          <span class="sb-right">
+            <span class="sb-signal"><i></i><i></i><i></i><i></i></span>
+            <span class="sb-wifi"></span>
+            <span class="sb-batt"></span>
+          </span>
+        </div>
+        <div class="content">
+          <div class="nav-top">
+            <div class="brand">
+              <span class="logo">寻</span>
+              <h2>校园失物招领</h2>
+              <span>东南大学</span>
+            </div>
+            <div class="searchbar">
+              <span class="ic"></span> 搜索物品名称，如「校园卡」
+            </div>
+          </div>
+          <div class="seg">
+            <div class="on">全部</div>
+            <div>失物招领</div>
+            <div>寻物启事</div>
+          </div>
+          <div class="filter-row">
+            <span>最新发布</span>
+            <span class="f-right">筛选 · 地点 <b>▾</b></span>
+          </div>
+          <div class="list">
+            <div class="item-card">
+              <div class="thumb g1">卡</div>
+              <div class="item-info">
+                <div class="item-title"><h4>校园卡</h4><span class="tag found">招领</span></div>
+                <div class="item-meta">教学楼 A 座 3 层 · 2 小时前</div>
+              </div>
+              <div class="chev">›</div>
+            </div>
+            <div class="item-card">
+              <div class="thumb g3">耳</div>
+              <div class="item-info">
+                <div class="item-title"><h4>AirPods 耳机</h4><span class="tag lost">寻物</span></div>
+                <div class="item-meta">田径场 · 3 小时前</div>
+              </div>
+              <div class="chev">›</div>
+            </div>
+            <div class="item-card">
+              <div class="thumb g2">伞</div>
+              <div class="item-info">
+                <div class="item-title"><h4>黑色折叠伞</h4><span class="tag found">招领</span></div>
+                <div class="item-meta">图书馆 2 楼 · 昨天</div>
+              </div>
+              <div class="chev">›</div>
+            </div>
+            <div class="item-card">
+              <div class="thumb g4">钥</div>
+              <div class="item-info">
+                <div class="item-title"><h4>钥匙一串</h4><span class="tag found">招领</span></div>
+                <div class="item-meta">食堂一楼 · 5 小时前</div>
+              </div>
+              <div class="chev">›</div>
+            </div>
+          </div>
+          <div class="tabbar">
+            <div class="tab on"><div class="t-ic"></div>首页</div>
+            <div class="tab add"><div class="t-ic"></div>发布</div>
+            <div class="tab"><div class="t-ic"></div>我的</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 2. 搜索页 ============ -->
+    <div class="screen-wrap">
+      <div class="screen-label"><b>02</b> · 搜索页（输入关键词）</div>
+      <div class="phone">
+        <div class="statusbar">
+          <span>9:41</span>
+          <span class="sb-right">
+            <span class="sb-signal"><i></i><i></i><i></i><i></i></span>
+            <span class="sb-wifi"></span>
+            <span class="sb-batt"></span>
+          </span>
+        </div>
+        <div class="content">
+          <div class="search-input">
+            <div class="in">
+              <span class="ic"></span>
+              <input placeholder="搜索物品名称" value="校园卡">
+            </div>
+            <span class="cancel">取消</span>
+          </div>
+          <div class="section">
+            <h4>热门搜索</h4>
+            <div class="tags">
+              <span class="pill hot">校园卡</span>
+              <span class="pill hot">耳机</span>
+              <span class="pill">雨伞</span>
+              <span class="pill">钥匙</span>
+              <span class="pill">水杯</span>
+              <span class="pill">书籍</span>
+            </div>
+          </div>
+          <div class="section" style="margin-top:18px;">
+            <h4>搜索历史</h4>
+            <div class="tags">
+              <span class="pill">校园卡</span>
+              <span class="pill">水杯</span>
+              <span class="pill">u盘</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 3. 搜索结果页 ============ -->
+    <div class="screen-wrap">
+      <div class="screen-label"><b>03</b> · 搜索结果</div>
+      <div class="phone">
+        <div class="statusbar">
+          <span>9:41</span>
+          <span class="sb-right">
+            <span class="sb-signal"><i></i><i></i><i></i><i></i></span>
+            <span class="sb-wifi"></span>
+            <span class="sb-batt"></span>
+          </span>
+        </div>
+        <div class="content">
+          <div class="search-input">
+            <div class="in">
+              <span class="ic"></span>
+              <input placeholder="搜索物品名称" value="校园卡">
+            </div>
+            <span class="cancel">取消</span>
+          </div>
+          <div class="result-count">找到 3 条与「校园卡」相关的信息</div>
+          <div class="list">
+            <div class="item-card">
+              <div class="thumb g1">卡</div>
+              <div class="item-info">
+                <div class="item-title"><h4>校园卡（李同学）</h4><span class="tag found">招领</span></div>
+                <div class="item-meta">教学楼 A 座 3 层 · 2 小时前</div>
+              </div>
+              <div class="chev">›</div>
+            </div>
+            <div class="item-card">
+              <div class="thumb g6">卡</div>
+              <div class="item-info">
+                <div class="item-title"><h4>校园卡（王同学）</h4><span class="tag found">招领</span></div>
+                <div class="item-meta">图书馆 · 今天 08:20</div>
+              </div>
+              <div class="chev">›</div>
+            </div>
+            <div class="item-card">
+              <div class="thumb g5">卡</div>
+              <div class="item-info">
+                <div class="item-title"><h4>校园卡</h4><span class="tag lost">寻物</span></div>
+                <div class="item-meta">宿舍区 · 昨天</div>
+              </div>
+              <div class="chev">›</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 4. 详情页 ============ -->
+    <div class="screen-wrap">
+      <div class="screen-label"><b>04</b> · 信息详情页</div>
+      <div class="phone">
+        <div class="statusbar">
+          <span>9:41</span>
+          <span class="sb-right">
+            <span class="sb-signal"><i></i><i></i><i></i><i></i></span>
+            <span class="sb-wifi"></span>
+            <span class="sb-batt"></span>
+          </span>
+        </div>
+        <div class="content">
+          <div class="page-bar">
+            <div class="back"></div>
+            <h3>信息详情</h3>
+          </div>
+          <div class="hero">
+            <span class="tag found">失物招领</span>
+            <span class="hero-txt">物品图片</span>
+          </div>
+          <div class="detail-title">
+            <h3>校园卡</h3>
+            <span class="tag found">招领</span>
+          </div>
+          <div class="info-card">
+            <div class="info-row"><span class="k">物品类型</span><span class="v">证件卡类</span></div>
+            <div class="info-row"><span class="k">拾获地点</span><span class="v">教学楼 A 座 3 层</span></div>
+            <div class="info-row"><span class="k">拾获时间</span><span class="v">2026-09-28 07:30</span></div>
+            <div class="info-row"><span class="k">物品描述</span><span class="v">在教学楼三楼楼梯口捡到一张校园卡，学号尾号 3214。</span></div>
+          </div>
+          <div class="publisher">
+            <div class="avatar">李</div>
+            <div>
+              <div class="p-name">李同学</div>
+              <div class="p-contact">联系方式：138****5678</div>
+            </div>
+          </div>
+          <div class="contact-btn">联系发布者</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 5. 发布页 ============ -->
+    <div class="screen-wrap">
+      <div class="screen-label"><b>05</b> · 发布信息页</div>
+      <div class="phone">
+        <div class="statusbar">
+          <span>9:41</span>
+          <span class="sb-right">
+            <span class="sb-signal"><i></i><i></i><i></i><i></i></span>
+            <span class="sb-wifi"></span>
+            <span class="sb-batt"></span>
+          </span>
+        </div>
+        <div class="content">
+          <div class="page-bar">
+            <div class="back"></div>
+            <h3>发布信息</h3>
+          </div>
+          <div class="type-toggle">
+            <div class="on">寻物启事</div>
+            <div>失物招领</div>
+          </div>
+          <div class="form">
+            <div class="field">
+              <label>物品名称</label>
+              <input placeholder="如：校园卡、黑色雨伞">
+            </div>
+            <div class="field">
+              <label>物品照片（选填）</label>
+              <div class="upload"><span class="plus">+</span><span>上传图片</span></div>
+            </div>
+            <div class="field">
+              <label>丢失 / 拾获地点</label>
+              <input placeholder="如：教学楼 A 座 3 层">
+            </div>
+            <div class="field">
+              <label>丢失 / 拾获时间</label>
+              <input placeholder="选择日期时间">
+            </div>
+            <div class="field">
+              <label>联系方式</label>
+              <input placeholder="手机号 / 微信号">
+            </div>
+            <div class="field">
+              <label>物品描述</label>
+              <textarea rows="3" placeholder="补充物品特征、颜色、品牌等信息"></textarea>
+            </div>
+          </div>
+          <div style="flex:1;"></div>
+          <div class="primary-btn">发 布</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 6. 发布成功页 ============ -->
+    <div class="screen-wrap">
+      <div class="screen-label"><b>06</b> · 发布成功</div>
+      <div class="phone">
+        <div class="statusbar">
+          <span>9:41</span>
+          <span class="sb-right">
+            <span class="sb-signal"><i></i><i></i><i></i><i></i></span>
+            <span class="sb-wifi"></span>
+            <span class="sb-batt"></span>
+          </span>
+        </div>
+        <div class="content">
+          <div class="success">
+            <div class="check"></div>
+            <h3>发布成功</h3>
+            <p>您的信息已发布，等待有缘人联系</p>
+            <div style="width:100%;">
+              <div class="ghost-btn" style="margin-bottom:14px;">查看我的发布</div>
+              <div class="primary-btn">返回首页</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 7. 我的发布页 ============ -->
+    <div class="screen-wrap">
+      <div class="screen-label"><b>07</b> · 我的发布（可选加分页）</div>
+      <div class="phone">
+        <div class="statusbar">
+          <span>9:41</span>
+          <span class="sb-right">
+            <span class="sb-signal"><i></i><i></i><i></i><i></i></span>
+            <span class="sb-wifi"></span>
+            <span class="sb-batt"></span>
+          </span>
+        </div>
+        <div class="content">
+          <div class="page-bar">
+            <div class="back"></div>
+            <h3>我的发布</h3>
+          </div>
+          <div class="seg">
+            <div class="on">全部</div>
+            <div>进行中</div>
+            <div>已完成</div>
+          </div>
+          <div class="list" style="margin-top:4px;">
+            <div class="my-card">
+              <div class="thumb g3">耳</div>
+              <div class="item-info">
+                <div class="item-title"><h4>AirPods 耳机</h4><span class="tag lost">寻物</span></div>
+                <div class="item-meta">发布于 3 小时前</div>
+              </div>
+              <span class="status-pill doing">进行中</span>
+            </div>
+            <div class="my-card">
+              <div class="thumb g1">卡</div>
+              <div class="item-info">
+                <div class="item-title"><h4>校园卡</h4><span class="tag found">招领</span></div>
+                <div class="item-meta">发布于 2 天前 · 已归还</div>
+              </div>
+              <span class="status-pill done">已完成</span>
+            </div>
+            <div class="my-card">
+              <div class="thumb g5">杯</div>
+              <div class="item-info">
+                <div class="item-title"><h4>保温杯</h4><span class="tag lost">寻物</span></div>
+                <div class="item-meta">发布于 5 天前</div>
+              </div>
+              <span class="status-pill doing">进行中</span>
+            </div>
+          </div>
+          <div class="tabbar">
+            <div class="tab"><div class="t-ic"></div>首页</div>
+            <div class="tab add"><div class="t-ic"></div>发布</div>
+            <div class="tab on"><div class="t-ic"></div>我的</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footnote">设计规范：主色 #4E6EF2 · 状态色 招领绿 #10B981 / 寻物橙 #F59E0B · 圆角卡片 + 柔和阴影 · 底部三栏导航</div>
+
+</body>
+</html>
